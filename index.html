@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Benson & Keran | December 5, 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Benson & Keran are getting married December 5, 2026 at Maranatha Full Gospel Church.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="locked">
+
+  <!-- ================= GATE (ENVELOPE & CINEMATIC) ================= -->
+  <div class="gate" id="gate">
+    <div class="gate-bg"></div>
+    <div class="gate-content" id="gateContent">
+      <div class="envelope-container">
+        <div class="envelope" id="envelope">
+          <div class="env-back"></div>
+          <div class="env-card">
+            <div class="env-card-inner">
+              <div class="env-card-eyebrow">You are warmly invited</div>
+              <h1 class="env-card-names">Benson <span class="env-amp">&amp;</span> Keran</h1>
+              <div class="env-card-date">December 5, 2026</div>
+            </div>
+          </div>
+          <div class="env-left-flap"></div>
+          <div class="env-right-flap"></div>
+          <div class="env-bottom-flap"></div>
+          <div class="env-top-flap" id="envTopFlap">
+            <div class="wax-seal" id="waxSeal">B&amp;K</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="gate-auth">
+        <p class="auth-hint">Enter code to break the seal</p>
+        <form class="code-form" id="codeForm" novalidate>
+          <input id="codeInput" name="code" type="text" autocomplete="off" placeholder="Code">
+          <button class="code-submit" type="submit">Unlock</button>
+        </form>
+        <p class="code-error" id="codeError">Incorrect code.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cinematic Sequence -->
+  <div class="cinematic" id="cinematic">
+    <div class="cine-text" id="cine1">Together with their families...</div>
+    <div class="cine-text" id="cine2">Benson <span style="color:var(--gold-soft); font-family:'Jost',sans-serif; font-weight:300;">&amp;</span> Keran</div>
+    <div class="cine-text" id="cine3">Invite you to celebrate their love.</div>
+  </div>
+
+  <!-- ================= NAV ================= -->
+  <nav class="site-nav" id="siteNav">
+    <a href="#welcome" class="nav-mark">B &amp; K</a>
+    <ul class="nav-links">
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#story">Story</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#rsvp">RSVP</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="welcome">
+      <div class="hero-bg" id="heroBg"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="hero-eyebrow reveal">Together with their families</p>
+        <h1 class="hero-names reveal reveal-delay-1">Benson <span class="hero-amp">&amp;</span> Keran</h1>
+        <div class="hero-date reveal reveal-delay-2">
+          <span>Saturday, December 5, 2026</span>
+          <span class="sep">|</span>
+          <span>10:30 AM</span>
+          <span class="sep">|</span>
+          <span>Balch Springs, TX</span>
+        </div>
+        <div class="countdown reveal reveal-delay-3" id="countdown">
+          <div><div class="num" id="cd-days">00</div><div class="lbl">Days</div></div>
+          <div><div class="num" id="cd-hours">00</div><div class="lbl">Hours</div></div>
+          <div><div class="num" id="cd-mins">00</div><div class="lbl">Mins</div></div>
+          <div><div class="num" id="cd-secs">00</div><div class="lbl">Secs</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SCHEDULE ================= -->
+    <section id="schedule">
+      <div class="container text-center">
+        <p class="kicker reveal">The Details</p>
+        <h2 class="section-title reveal">Wedding Schedule</h2>
+        <p class="lede reveal">We are so excited to celebrate this special day with you. Here is what to expect.</p>
+        
+        <ul class="schedule-list">
+          <li class="reveal">
+            <div class="schedule-time">10:00 AM</div>
+            <div class="schedule-rule"></div>
+            <div class="schedule-what">
+              <h3>Guest Arrival</h3>
+              <p>Please be seated by 10:15 AM so we can begin promptly.</p>
+            </div>
+          </li>
+          <li class="reveal reveal-delay-1">
+            <div class="schedule-time">10:30 AM</div>
+            <div class="schedule-rule"></div>
+            <div class="schedule-what">
+              <h3>Wedding Ceremony</h3>
+              <p>Maranatha Full Gospel Church<br>2206 W Bruton Rd, Balch Springs, TX 75181</p>
+            </div>
+          </li>
+          <li class="reveal reveal-delay-2">
+            <div class="schedule-time">TBD</div>
+            <div class="schedule-rule"></div>
+            <div class="schedule-what">
+              <h3>Reception & Dinner</h3>
+              <p>Time and venue details to be announced soon. Expect a wonderful evening of food and dancing!</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= STORY ================= -->
+    <section id="story">
+      <div class="story-layout">
+        <div class="story-img-wrapper reveal">
+          <img src="img/story_arch.jpg" alt="Couple Silhouette">
+        </div>
+        <div class="story-content">
+          <p class="kicker reveal">Our Journey</p>
+          <h2 class="section-title reveal">How It Began</h2>
+          <div class="reveal reveal-delay-1">
+            <p>Every love story is beautiful, and ours is still being written. From our first meeting to this beautiful commitment, God's grace has guided our every step.</p>
+            <p>"This is the Lord's doing; it is marvellous in our eyes." — Psalm 118:23</p>
+            <p>We cannot wait to share the next chapter of our lives with all our closest family and friends. Thank you for your endless love and support.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= GALLERY ================= -->
+    <section id="gallery">
+      <div class="container text-center" style="max-width:1200px;">
+        <p class="kicker reveal">Captured Moments</p>
+        <h2 class="section-title reveal" style="margin-bottom: 40px;">Gallery</h2>
+        <div class="gallery-grid">
+          <div class="gallery-item item-tall reveal"><img src="img/gallery_invite.jpg" alt="Invitation" loading="lazy"></div>
+          <div class="gallery-item reveal reveal-delay-1"><img src="img/gallery_flowers.jpg" alt="Flowers" loading="lazy"></div>
+          <div class="gallery-item reveal reveal-delay-2"><img src="img/gallery_church.jpg" alt="Church" loading="lazy"></div>
+          <div class="gallery-item reveal reveal-delay-1"><img src="img/gallery_ring.jpg" alt="Ring" loading="lazy"></div>
+          <div class="gallery-item item-wide reveal reveal-delay-2"><img src="img/hero_hands.jpg" alt="Hands" loading="lazy"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RSVP ================= -->
+    <section id="rsvp">
+      <div class="container">
+        <p class="kicker reveal">Join Us</p>
+        <h2 class="section-title reveal">RSVP</h2>
+        <p class="lede reveal" style="color:var(--cream-deep);">Please respond by November 7, 2026</p>
+
+        <form class="rsvp-form reveal reveal-delay-1" id="rsvpForm">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+            <div class="field">
+              <label for="rsvpName">Full Name</label>
+              <input id="rsvpName" type="text" required>
+            </div>
+            <div class="field">
+              <label for="rsvpAttending">Attending?</label>
+              <select id="rsvpAttending" required>
+                <option value="">Select one</option>
+                <option value="yes">Joyfully accepts</option>
+                <option value="no">Regretfully declines</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="rsvpGuests">Number of Guests</label>
+            <input id="rsvpGuests" type="number" min="1" max="10" value="1">
+          </div>
+          <div class="field">
+            <label for="rsvpMessage">Message for the Couple (Optional)</label>
+            <textarea id="rsvpMessage" placeholder="Leave a note or dietary requirement"></textarea>
+          </div>
+          <button class="rsvp-submit" type="submit">Send RSVP</button>
+        </form>
+
+        <div class="rsvp-thanks" id="rsvpThanks">
+          <h2 class="section-title" style="color:var(--cream);">Thank You!</h2>
+          <p class="lede">Your RSVP has been received. We can't wait to celebrate with you.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section id="faq">
+      <div class="container text-center">
+        <p class="kicker reveal">Good to Know</p>
+        <h2 class="section-title reveal">Frequently Asked Questions</h2>
+        <div class="faq-list reveal reveal-delay-1">
+          
+          <div class="faq-item">
+            <button class="faq-q">What should I wear? <span class="faq-icon">+</span></button>
+            <div class="faq-a"><p>Semi-formal attire is welcome. We'd love to see the wedding's warm autumn tones reflected in your outfit, but it isn't required.</p></div>
+          </div>
+          
+          <div class="faq-item">
+            <button class="faq-q">Are children welcome? <span class="faq-icon">+</span></button>
+            <div class="faq-a"><p>We adore your little ones, but our ceremony and reception are an adults-only celebration, with love.</p></div>
+          </div>
+          
+          <div class="faq-item">
+            <button class="faq-q">Is there parking at the church? <span class="faq-icon">+</span></button>
+            <div class="faq-a"><p>Yes, on-site parking is available at Maranatha Full Gospel Church. Details on where to park will be shared closer to the date.</p></div>
+          </div>
+          
+          <div class="faq-item">
+            <button class="faq-q">Can I take photos during the ceremony? <span class="faq-icon">+</span></button>
+            <div class="faq-a"><p>We'll have a photographer capturing every moment, so we kindly ask for an unplugged ceremony — phones and cameras away until the recessional.</p></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-names">Benson &amp; Keran</div>
+    <div class="footer-sub">December 5, 2026 | With Love</div>
+  </footer>
+
+<script src="script.js"></script>
+</body>
+</html>
