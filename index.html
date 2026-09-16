@@ -12,51 +12,50 @@
 </head>
 <body class="locked">
 
-  <!-- ================= GATE (ENVELOPE & CINEMATIC) ================= -->
+  <!-- ================= GATE ================= -->
   <div class="gate" id="gate">
     <div class="gate-bg"></div>
     <div class="gate-content" id="gateContent">
-      <div class="envelope-container">
+
+      <!-- Envelope -->
+      <div class="env-wrap">
         <div class="envelope" id="envelope">
           <div class="env-back"></div>
-          <div class="env-card">
-            <div class="env-card-inner">
-              <div class="env-card-eyebrow">You are warmly invited</div>
+          <div class="env-flap env-flap--left"></div>
+          <div class="env-flap env-flap--right"></div>
+          <div class="env-flap env-flap--bottom"></div>
+          <div class="env-card" id="envCard">
+            <div class="env-card-border">
+              <span class="env-card-eyebrow">You are warmly invited</span>
               <h1 class="env-card-names">Benson <span class="env-amp">&amp;</span> Keran</h1>
-              <div class="env-card-date">December 5, 2026</div>
+              <span class="env-card-date">December 5, 2026 &middot; Balch Springs, Texas</span>
             </div>
           </div>
-          <div class="env-left-flap"></div>
-          <div class="env-right-flap"></div>
-          <div class="env-bottom-flap"></div>
-          <div class="env-top-flap" id="envTopFlap">
+          <div class="env-flap env-flap--top" id="envTopFlap">
             <div class="wax-seal" id="waxSeal">B&amp;K</div>
           </div>
         </div>
       </div>
-      
-      <div class="gate-auth">
-        <p class="auth-hint">Enter code to break the seal</p>
+
+      <!-- Auth -->
+      <div class="gate-auth" id="gateAuth">
+        <p class="auth-hint">Enter your invitation code to break the seal</p>
         <form class="code-form" id="codeForm" novalidate>
-          <input id="codeInput" name="code" type="text" autocomplete="off" placeholder="Code">
+          <input id="codeInput" name="code" type="text" autocomplete="off"
+                 placeholder="Code" inputmode="text">
           <button class="code-submit" type="submit">Unlock</button>
         </form>
-        <p class="code-error" id="codeError">Incorrect code.</p>
+        <p class="code-error" id="codeError">Incorrect code &mdash; please try again.</p>
       </div>
-    </div>
-  </div>
 
-  <!-- Cinematic Sequence -->
-  <div class="cinematic" id="cinematic">
-    <div class="cine-text" id="cine1">Together with their families...</div>
-    <div class="cine-text" id="cine2">Benson <span style="color:var(--gold-soft); font-family:'Jost',sans-serif; font-weight:300;">&amp;</span> Keran</div>
-    <div class="cine-text" id="cine3">Invite you to celebrate their love.</div>
+    </div>
   </div>
 
   <!-- ================= NAV ================= -->
   <nav class="site-nav" id="siteNav">
     <a href="#welcome" class="nav-mark">B &amp; K</a>
-    <ul class="nav-links">
+    <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="#schedule">Schedule</a></li>
       <li><a href="#story">Story</a></li>
       <li><a href="#gallery">Gallery</a></li>
@@ -163,10 +162,10 @@
       <div class="container">
         <p class="kicker reveal">Join Us</p>
         <h2 class="section-title reveal">RSVP</h2>
-        <p class="lede reveal" style="color:var(--cream-deep);">Please respond by November 7, 2026</p>
+        <p class="lede reveal" style="color:var(--cream-soft);">Please respond by November 7, 2026</p>
 
         <form class="rsvp-form reveal reveal-delay-1" id="rsvpForm">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <div class="rsvp-grid">
             <div class="field">
               <label for="rsvpName">Full Name</label>
               <input id="rsvpName" type="text" required>
@@ -212,7 +211,7 @@
           
           <div class="faq-item">
             <button class="faq-q">Are children welcome? <span class="faq-icon">+</span></button>
-            <div class="faq-a"><p>We adore your little ones, but our ceremony and reception are an adults-only celebration, with love.</p></div>
+            <div class="faq-a"><p>Absolutely! We love your little ones and they are warmly welcome to join in the celebration.</p></div>
           </div>
           
           <div class="faq-item">
@@ -235,6 +234,7 @@
     <div class="footer-sub">December 5, 2026 | With Love</div>
   </footer>
 
+<button class="scroll-top" id="scrollTop" aria-label="Back to top">&#8679;</button>
 <script src="script.js"></script>
 </body>
 </html>
