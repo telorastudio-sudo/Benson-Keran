@@ -51,172 +51,519 @@
     display: flex; align-items: center; justify-content: center;
     padding: 20px;
     background: var(--pine);
-    transition: opacity 1.2s ease, visibility 1.2s;
+    transition: opacity 1.4s ease, visibility 1.4s;
   }
-  .gate.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .gate.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    /* After 1.4s fade, collapse it completely so nothing can bleed through */
+    transition: opacity 1.4s ease, visibility 1.4s, display 0s 1.4s;
+    display: none;
+  }
 
   .gate-bg {
     position: absolute; inset: 0; z-index: 0;
     background: url('img/story_arch.jpg') center/cover;
-    filter: blur(14px) brightness(0.22);
-    transform: scale(1.06);
+    filter: blur(16px) brightness(0.18);
+    transform: scale(1.08);
   }
-
+  /* Cinematic vignette — sits above bg + particles, below envelope/auth */
+  .gate::after {
+    content: '';
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 50% 46%, transparent 38%, rgba(0,0,0,0.5) 100%);
+    pointer-events: none;
+  }
+  #particleCanvas {
+    position: absolute; inset: 0; z-index: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; display: block;
+  }
   .gate-content {
     position: relative; z-index: 1;
-    display: flex; flex-direction: column; align-items: center; gap: 36px;
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    display: flex; flex-direction: column; align-items: center; gap: 32px;
+    transition: opacity 0.9s ease, transform 0.9s ease;
+    animation: gateContentIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  .gate-content.fade-out { opacity: 0; transform: translateY(-16px); pointer-events: none; }
+  .gate-content.fade-out {
+    opacity: 0; transform: translateY(-20px); pointer-events: none;
+  }
+  @keyframes gateContentIn {
+    from { opacity: 0; transform: translateY(26px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
 
-  /* ── Envelope ── */
-  .env-wrap {
-    width: min(88vw, 440px);
-    height: min(62vw, 300px);
-    perspective: 1400px;
+  /* ─── Gate heading ─── */
+  .gate-heading { text-align: center; animation: gateHeadingIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both; }
+  .gate-heading-flourish {
+    display: block; color: var(--gold-soft); font-size: 1rem;
+    margin-bottom: 10px; opacity: 0.85;
+    animation: flourishPulse 3.2s ease-in-out infinite;
   }
+  .gate-heading-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    color: var(--cream-soft); font-size: clamp(1.3rem, 4vw, 1.9rem);
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 14px rgba(0,0,0,0.35);
+  }
+  @keyframes gateHeadingIn {
+    from { opacity: 0; transform: translateY(-14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes flourishPulse {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50%       { opacity: 1;    transform: scale(1.25); }
+  }
+
+  /* ─── Envelope wrap — floats before opening ─── */
+  .env-wrap {
+    position: relative;
+    width: min(90vw, 500px);
+    height: min(64vw, 320px);
+    perspective: 1600px;
+    animation: envFloat 4.2s ease-in-out infinite, gateHeadingIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+  }
+  /* Soft ambient glow breathing behind the envelope */
+  .env-wrap::before {
+    content: '';
+    position: absolute; left: 50%; top: 50%;
+    width: 130%; height: 150%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(197,138,50,0.22) 0%, rgba(197,138,50,0) 68%);
+    filter: blur(22px);
+    z-index: -1;
+    pointer-events: none;
+    animation: glowPulse 3.8s ease-in-out infinite;
+  }
+  @keyframes envFloat {
+    0%, 100% { transform: translateY(0px)   rotateZ(0deg);   }
+    50%       { transform: translateY(-10px) rotateZ(0.6deg); }
+  }
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9);  }
+    50%       { opacity: 0.95; transform: translate(-50%, -50%) scale(1.08); }
+  }
+  .env-wrap.opening { animation: none; }
+  .env-wrap.opening::before { animation: none; opacity: 0.9; }
+
+  /* ─── Envelope container ─── */
   .envelope {
     position: relative; width: 100%; height: 100%;
     transform-style: preserve-3d;
-    filter: drop-shadow(0 24px 48px rgba(0,0,0,0.65));
+    filter: drop-shadow(0 28px 55px rgba(0,0,0,0.65));
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
   }
 
-  /* Back plate — cream parchment */
-  .env-back {
+  /* ─── Back / body ─── */
+  .env-body {
+    position: absolute; inset: 0; z-index: 1; border-radius: 4px; overflow: hidden;
+    background: linear-gradient(145deg, #F2E5CC 0%, #E8D4AE 40%, #DEC89A 100%);
+    box-shadow:
+      inset 0 0 60px rgba(0,0,0,0.1),
+      inset 0 0 0 1px rgba(197,138,50,0.55),
+      inset 0 0 0 5px rgba(197,138,50,0.16);
+  }
+  /* Fine paper-grain texture */
+  .env-body::before {
+    content: '';
     position: absolute; inset: 0; z-index: 1;
-    background: linear-gradient(135deg, #EFE3CD 0%, #E2CFA8 100%);
-    border-radius: 3px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+    opacity: 0.5;
+    pointer-events: none;
   }
+  /* Inner envelope (darker) — revealed when top flap opens */
+  .env-inside {
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, #C8A96E 0%, #B8944F 100%);
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease 0.6s;
+  }
+  .envelope.open .env-inside { opacity: 1; }
 
-  /* Side & bottom flaps */
-  .env-flap {
-    position: absolute; z-index: 3;
+  /* ─── Corner flourishes ─── */
+  .env-corner {
+    position: absolute; z-index: 4; width: 20px; height: 20px;
+    pointer-events: none; opacity: 0.85;
   }
+  .env-corner::before, .env-corner::after { content: ''; position: absolute; background: rgba(197,138,50,0.65); }
+  .env-corner::before { width: 100%; height: 1px; }
+  .env-corner::after  { width: 1px; height: 100%; }
+  .env-corner--tl { top: 8px;    left: 8px;  }
+  .env-corner--tr { top: 8px;    right: 8px; }
+  .env-corner--bl { bottom: 8px; left: 8px;  }
+  .env-corner--br { bottom: 8px; right: 8px; }
+  .env-corner--tl::before, .env-corner--tl::after { top: 0; left: 0; }
+  .env-corner--tr::before { top: 0; right: 0; }
+  .env-corner--tr::after  { top: 0; right: 0; }
+  .env-corner--bl::before { bottom: 0; left: 0; }
+  .env-corner--bl::after  { bottom: 0; left: 0; }
+  .env-corner--br::before { bottom: 0; right: 0; }
+  .env-corner--br::after  { bottom: 0; right: 0; }
+
+
+  .env-flap { position: absolute; z-index: 3; }
   .env-flap--left {
-    top: 0; left: 0; width: 52%; height: 100%;
-    background: linear-gradient(to right, #DBC99E, #E6D4AE);
+    top: 0; left: 0; width: 54%; height: 100%;
+    background: linear-gradient(to right, #DFCA9D 0%, #EDD9B2 50%, #E6D2A8 100%);
     clip-path: polygon(0 0, 100% 50%, 0 100%);
+    box-shadow: inset -2px 0 8px rgba(0,0,0,0.06);
   }
   .env-flap--right {
-    top: 0; right: 0; width: 52%; height: 100%;
-    background: linear-gradient(to left, #DBC99E, #E6D4AE);
+    top: 0; right: 0; width: 54%; height: 100%;
+    background: linear-gradient(to left, #DFCA9D 0%, #EDD9B2 50%, #E6D2A8 100%);
     clip-path: polygon(100% 0, 0 50%, 100% 100%);
+    box-shadow: inset 2px 0 8px rgba(0,0,0,0.06);
   }
   .env-flap--bottom {
-    bottom: 0; left: 0; width: 100%; height: 60%;
-    background: linear-gradient(to top, #CDB988, #DBCA9E);
+    bottom: 0; left: 0; width: 100%; height: 62%; z-index: 4;
+    background: linear-gradient(to top, #CDB27A 0%, #D9C08E 50%, #E4CFA3 100%);
     clip-path: polygon(0 100%, 100% 100%, 50% 0);
-    z-index: 4;
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.08);
   }
 
-  /* Invitation card that slides out */
+  /* ─── Invitation card ─── */
   .env-card {
     position: absolute;
-    /* sit slightly inside the envelope */
-    left: 8%; width: 84%;
-    bottom: 8%; height: 80%;
+    left: 7%; width: 86%;
+    bottom: 6%; height: 82%;
     z-index: 2;
-    background: var(--cream-soft);
-    border-radius: 4px;
+    background: linear-gradient(150deg, #FDFAF4 0%, #F9F3E8 60%, #F4ECD9 100%);
+    border-radius: 3px;
     display: flex; align-items: center; justify-content: center;
     text-align: center;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
-    /* Card stays put until flap opens. Delay 1.6s = after flap finishes. */
-    transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s;
+    box-shadow:
+      0 2px 8px rgba(0,0,0,0.12),
+      inset 0 0 0 1px rgba(197,138,50,0.3);
+    overflow: hidden;
+    opacity: 0;   /* hidden until envelope opens */
+    transition: transform 1.15s cubic-bezier(0.22, 1.32, 0.36, 1) 0.6s,
+                box-shadow 1.15s ease 0.6s,
+                opacity 0.4s ease 0.5s,
+                z-index 0s 0.6s;
   }
-  .env-card-border {
-    border: 1px solid rgba(197,138,50,0.5);
-    border-radius: 3px;
-    width: calc(100% - 16px); height: calc(100% - 16px);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 6px; padding: 12px;
+  /* Fine paper-grain texture on the card face */
+  .env-card::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  /* Gold foil shimmer on card — plays after card rises */
+  .env-card::after {
+    content: '';
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgba(212,163,91,0.18) 50%,
+      transparent 70%
+    );
+    transform: translateX(-100%);
+    transition: none;
+  }
+  .envelope.open .env-card::after {
+    transform: translateX(100%);
+    transition: transform 1.2s ease 2.4s; /* plays after card is risen */
+  }
+
+  /* ─── Card inner content ─── */
+  .env-card-inner {
+    padding: 14px 18px;
+    border: 1px solid rgba(197,138,50,0.45);
+    border-radius: 2px;
+    width: calc(100% - 20px); height: calc(100% - 20px);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px;
+    position: relative;
+  }
+  .env-card-monogram {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+    color: var(--gold); letter-spacing: 0.18em;
+    text-transform: uppercase; margin-bottom: 2px;
+  }
+  .env-ornament {
+    color: var(--gold); font-size: clamp(0.4rem, 1vw, 0.55rem);
+    letter-spacing: 0.1em; opacity: 0.7; line-height: 1;
   }
   .env-card-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.14em; color: var(--ember);
-    text-transform: uppercase;
+    font-size: clamp(0.48rem, 1.2vw, 0.62rem);
+    letter-spacing: 0.1em; color: var(--ink);
+    text-transform: uppercase; opacity: 0.55;
+    margin: 0;
   }
   .env-card-names {
-    font-family: 'Fraunces', serif; font-size: clamp(1.5rem, 4vw, 2rem);
-    font-style: italic; color: var(--plum); line-height: 1.1;
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: clamp(1.1rem, 3.2vw, 1.7rem);
+    color: var(--plum); line-height: 1.15; margin: 2px 0;
   }
-  .env-amp { font-style: normal; font-weight: 300; color: var(--gold); font-family: 'Jost', sans-serif; }
-  .env-card-date { font-size: 0.8rem; color: var(--ink); opacity: 0.75; }
+  .env-amp {
+    font-style: normal; font-weight: 300;
+    color: var(--gold); font-family: 'Jost', sans-serif;
+    font-size: 0.85em;
+  }
+  .env-card-date {
+    font-size: clamp(0.5rem, 1.2vw, 0.65rem);
+    color: var(--ink); opacity: 0.7;
+    letter-spacing: 0.08em; margin-top: 2px;
+  }
+  .env-card-venue {
+    font-size: clamp(0.45rem, 1vw, 0.58rem);
+    color: var(--ember); opacity: 0.85;
+    letter-spacing: 0.1em; text-transform: uppercase; margin: 0;
+  }
 
-  /* Top / sealing flap */
+  /* ─── Top sealing flap ─── */
   .env-flap--top {
-    position: absolute; top: 0; left: 0; width: 100%; height: 58%; z-index: 5;
-    background: linear-gradient(160deg, #EFE3CD 0%, #E0CFA3 100%);
+    position: absolute; top: 0; left: 0; width: 100%; height: 60%; z-index: 5;
+    background: linear-gradient(165deg, #F5E8CE 0%, #EDD9B0 55%, #E2C898 100%);
     clip-path: polygon(0 0, 100% 0, 50% 100%);
     transform-origin: top center;
-    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s 0.3s;
+    transform: rotateX(0deg);
     display: flex; justify-content: center; align-items: flex-end;
+    /* NO overflow:hidden — wax seal hangs below with translateY(50%) */
   }
-
-  /* Wax seal */
-  .wax-seal {
-    width: 60px; height: 60px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 32% 32%, var(--maroon), var(--plum-deep));
-    box-shadow: 0 4px 14px rgba(0,0,0,0.45), inset 0 0 0 2px rgba(255,255,255,0.12);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Fraunces', serif; font-style: italic;
-    font-size: 1.4rem; color: var(--gold-soft);
-    transform: translateY(50%);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-  }
-
-  /* ── OPEN state — class added by JS ── */
-  /* Step 1: seal gone */
-  .envelope.open .wax-seal {
-    opacity: 0;
-    transform: translateY(50%) scale(0.8);
-  }
-  /* Step 2: top flap folds back (rotateX) revealing the inside */
   .envelope.open .env-flap--top {
-    transform: rotateX(160deg);
-    z-index: 0;
+    animation: flapOpen 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-  /* Step 3: card rises clear of the envelope (AFTER flap is done) */
-  .envelope.open .env-card {
-    transform: translateY(-80px);
-    z-index: 6;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+  @keyframes flapOpen {
+    0%   { transform: rotateX(0deg);   z-index: 5; }
+    65%  { transform: rotateX(168deg); z-index: 5; }
+    99%  { z-index: 5; }
+    100% { transform: rotateX(158deg); z-index: 0; }
+  }
+  /* Metallic shine sweep on the flap */
+  .env-flap--top::after {
+    content: '';
+    position: absolute; top: 0; left: -150%; width: 80%; height: 100%;
+    background: linear-gradient(
+      100deg,
+      transparent 0%,
+      rgba(255,255,255,0.05) 40%,
+      rgba(255,255,255,0.14) 50%,
+      rgba(255,255,255,0.05) 60%,
+      transparent 100%
+    );
+    transform: skewX(-12deg);
+    animation: envShine 5s ease-in-out 3s infinite;
+  }
+  @keyframes envShine {
+    0%    { left: -150%; }
+    100%  { left: 210%;  }
+  }
+  /* Soft shadow cast onto the body as the flap lifts open */
+  .env-body::after {
+    content: '';
+    position: absolute; inset: 0; z-index: 2;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.22), transparent 55%);
+    opacity: 0;
+    transition: opacity 0.9s ease 0.15s;
+    pointer-events: none;
+  }
+  .envelope.open .env-body::after { opacity: 1; }
+
+  /* ─── Wax seal — absolutely positioned within .envelope ─── */
+  .wax-seal {
+    position: absolute;
+    /* Sit at the bottom tip of the top flap: 60% from top, horizontal center */
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    z-index: 6;  /* above all flaps */
+    width: 68px; height: 68px;
+    border-radius: 46% 54% 53% 47% / 55% 48% 52% 45%;
+    background: radial-gradient(circle at 30% 26%, #8F2244 0%, var(--plum) 46%, var(--plum-deep) 100%);
+    box-shadow:
+      0 6px 20px rgba(0,0,0,0.5),
+      inset 0 0 0 2px rgba(255,255,255,0.12),
+      inset 0 -3px 6px rgba(0,0,0,0.25),
+      0 0 0 0 rgba(100,28,53,0.5);
+    display: flex; align-items: center; justify-content: center;
+    animation: sealPulse 2.8s ease-in-out infinite;
+    cursor: default;
+    transition: opacity 0.4s ease 0.05s;
+  }
+  /* Fine wax grain texture */
+  .wax-seal::before {
+    content: '';
+    position: absolute; inset: 0; border-radius: inherit;
+    background: repeating-radial-gradient(circle at 50% 50%, transparent 0px, transparent 2px, rgba(0,0,0,0.055) 3px);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  /* Glossy specular highlight */
+  .wax-seal::after {
+    content: '';
+    position: absolute; top: 13%; left: 19%;
+    width: 38%; height: 22%;
+    background: rgba(255,255,255,0.38);
+    border-radius: 50%;
+    filter: blur(4px);
+    transform: rotate(-28deg);
+    pointer-events: none;
+  }
+  .seal-ring {
+    position: absolute; inset: 5px;
+    border-radius: inherit;
+    border: 1px solid rgba(212,163,91,0.55);
+    pointer-events: none;
+  }
+  .seal-text {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 1.3rem; color: var(--gold-soft);
+    z-index: 1; user-select: none;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
   }
 
-  /* ── Auth form below envelope ── */
-  .gate-auth { text-align: center; }
+  /* ─── Gold-dust sparkle burst on seal crack ─── */
+  .seal-sparkle {
+    position: absolute;
+    left: 50%; top: 60%;
+    width: 6px; height: 6px;
+    margin: -3px 0 0 -3px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FBE7B4 0%, rgba(251,231,180,0.6) 45%, rgba(251,231,180,0) 75%);
+    z-index: 7;
+    opacity: 0;
+    pointer-events: none;
+    animation: sealSparkle 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .seal-sparkle.star {
+    border-radius: 0;
+    background: #FBE7B4;
+    clip-path: polygon(50% 0%, 61% 38%, 100% 50%, 61% 62%, 50% 100%, 39% 62%, 0% 50%, 39% 38%);
+  }
+  @keyframes sealSparkle {
+    0%   { opacity: 1; transform: translate(0, 0) scale(calc(var(--s, 1) * 0.4)) rotate(0deg); }
+    70%  { opacity: 0.9; }
+    100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(calc(var(--s, 1) * 1.1)) rotate(90deg); }
+  }
+  @keyframes sealPulse {
+    0%, 100% {
+      transform: translate(-50%, -50%) scale(1);
+      box-shadow: 0 5px 18px rgba(0,0,0,0.5),
+                  inset 0 0 0 2px rgba(255,255,255,0.12),
+                  0 0 0 0 rgba(100,28,53,0.5);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.04);
+      box-shadow: 0 5px 18px rgba(0,0,0,0.5),
+                  inset 0 0 0 2px rgba(255,255,255,0.12),
+                  0 0 22px 10px rgba(100,28,53,0.28);
+    }
+  }
+  /* Seal crack animation */
+  @keyframes sealCrack {
+    0%   { transform: translate(-50%, -50%) scale(1);    opacity: 1; filter: brightness(1);   }
+    25%  { transform: translate(-50%, -50%) scale(1.22); opacity: 1; filter: brightness(1.6); }
+    55%  { transform: translate(-50%, -50%) scale(0.88); opacity: 0.8; filter: brightness(0.8); }
+    100% { transform: translate(-50%, -50%) scale(0.1);  opacity: 0; filter: brightness(0.5); }
+  }
+  .wax-seal.cracking {
+    animation: sealCrack 0.55s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  }
+  /* Bright flash radiating from the seal at the instant it cracks */
+  .seal-flash {
+    position: absolute; left: 50%; top: 60%;
+    width: 20px; height: 20px;
+    margin: -10px 0 0 -10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,244,214,0.95) 0%, rgba(251,231,180,0.5) 35%, rgba(251,231,180,0) 72%);
+    z-index: 6;
+    opacity: 0;
+    pointer-events: none;
+    animation: sealFlash 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes sealFlash {
+    0%   { opacity: 0;   transform: scale(0.3); }
+    25%  { opacity: 1;   transform: scale(1.6);  }
+    100% { opacity: 0;   transform: scale(4.2);  }
+  }
+  /* Hide seal when envelope opens (crack animation handles it visually) */
+  .envelope.open .wax-seal { opacity: 0; pointer-events: none; }
+  /* Hide seal when envelope opens (crack animation handles it visually) */
+  .envelope.open .wax-seal { opacity: 0; pointer-events: none; }
+
+  /* ─── Open state ─── */
+  .envelope.open .env-card {
+    opacity: 1;   /* revealed when open */
+    transform: translateY(-86px) rotateZ(-0.7deg);
+    z-index: 6;
+    box-shadow:
+      0 22px 50px rgba(0,0,0,0.4),
+      inset 0 0 0 1px rgba(197,138,50,0.4),
+      0 0 30px rgba(197,138,50,0.08);
+  }
+  /* Gentle idle float once the card has fully risen */
+  .env-card.settled {
+    animation: cardIdleFloat 4s ease-in-out infinite;
+  }
+  @keyframes cardIdleFloat {
+    0%, 100% { transform: translateY(-86px) rotateZ(-0.7deg); }
+    50%       { transform: translateY(-91px) rotateZ(-0.3deg); }
+  }
+
+  /* ─── Auth form ─── */
+  .gate-auth { text-align: center; width: min(90vw, 360px); }
   .auth-hint {
-    color: rgba(243,235,221,0.85); font-size: 0.8rem;
-    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px;
+    color: rgba(243,235,221,0.7); font-size: 0.78rem;
+    letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px;
   }
-  .code-form {
-    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-  }
+  .code-form { display: flex; gap: 0; border-radius: 6px; overflow: hidden; }
+  .code-input-wrap { flex: 1; }
   .code-form input {
-    width: 160px; padding: 13px 16px;
-    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.35);
-    border-radius: 4px; color: var(--cream-soft);
+    width: 100%; padding: 15px 18px;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-right: none;
+    color: var(--cream-soft);
     font-family: 'Jost', sans-serif; font-size: 1rem;
-    text-align: center; letter-spacing: 0.18em;
-    backdrop-filter: blur(6px);
-    transition: border-color 0.3s;
+    text-align: center; letter-spacing: 0.22em;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.3s, background 0.3s;
+    border-radius: 6px 0 0 6px;
   }
-  .code-form input:focus { border-color: var(--gold); outline: none; }
-  .code-form input::placeholder { color: rgba(255,255,255,0.42); }
+  .code-form input:focus {
+    outline: none;
+    border-color: rgba(197,138,50,0.7);
+    background: rgba(255,255,255,0.14);
+  }
+  .code-form input::placeholder { color: rgba(255,255,255,0.35); letter-spacing: 0.1em; }
   .code-submit {
+    display: flex; align-items: center; gap: 8px;
     background: var(--gold); color: var(--pine);
-    padding: 13px 28px; font-size: 0.88rem; letter-spacing: 0.1em;
-    text-transform: uppercase; border-radius: 4px; font-weight: 500;
+    padding: 15px 22px; font-size: 0.85rem; letter-spacing: 0.08em;
+    text-transform: uppercase; font-weight: 600;
+    border-radius: 0 6px 6px 0;
     transition: background 0.3s ease, transform 0.2s ease;
+    flex-shrink: 0;
   }
-  .code-submit:hover { background: var(--cream-soft); transform: translateY(-1px); }
+  .code-submit:hover { background: var(--cream-soft); }
+  .code-submit:active { transform: scale(0.97); }
   .code-error {
-    margin-top: 10px; font-size: 0.85rem; color: #ff8a80;
+    margin-top: 12px; font-size: 0.8rem; color: #ff9a8b;
     opacity: 0; transition: opacity 0.3s;
   }
   .code-error.show { opacity: 1; }
+  /* Input shake */
+  @keyframes inputShake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-8px); }
+    40%       { transform: translateX(8px); }
+    60%       { transform: translateX(-5px); }
+    80%       { transform: translateX(5px); }
+  }
+  .code-form input.shake { animation: inputShake 0.45s ease; }
 
   /* ============ NAV ============ */
+
 
   .site-nav {
     position: fixed; top: 0; width: 100%; z-index: 40;
@@ -456,3 +803,13 @@
     80%       { transform: translateX(5px); }
   }
   .code-form input.shake { animation: shake 0.45s ease; }
+
+  /* ============ REDUCED MOTION ============ */
+  @media (prefers-reduced-motion: reduce) {
+    .env-wrap, .env-wrap::before, .gate-heading-flourish,
+    .env-card.settled, .wax-seal, .env-flap--top::after {
+      animation: none !important;
+    }
+    .envelope { transition: none !important; }
+    .gate-content, .gate-heading, .env-wrap { animation-duration: 0.01s !important; }
+  }

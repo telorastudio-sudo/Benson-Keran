@@ -15,41 +15,87 @@
   <!-- ================= GATE ================= -->
   <div class="gate" id="gate">
     <div class="gate-bg"></div>
+    <canvas id="particleCanvas" aria-hidden="true"></canvas>
+
     <div class="gate-content" id="gateContent">
 
+      <!-- Heading -->
+      <div class="gate-heading">
+        <span class="gate-heading-flourish" aria-hidden="true">&#10022;</span>
+        <h2 class="gate-heading-text">You're Cordially Invited</h2>
+      </div>
+
       <!-- Envelope -->
-      <div class="env-wrap">
+      <div class="env-wrap" id="envWrap">
         <div class="envelope" id="envelope">
-          <div class="env-back"></div>
+
+          <!-- Back plate (cream parchment) -->
+          <div class="env-body">
+            <div class="env-inside"></div>
+          </div>
+
+          <!-- Corner flourishes -->
+          <span class="env-corner env-corner--tl" aria-hidden="true"></span>
+          <span class="env-corner env-corner--tr" aria-hidden="true"></span>
+          <span class="env-corner env-corner--bl" aria-hidden="true"></span>
+          <span class="env-corner env-corner--br" aria-hidden="true"></span>
+
+          <!-- Decorative fold lines (visible center diamond) -->
           <div class="env-flap env-flap--left"></div>
           <div class="env-flap env-flap--right"></div>
           <div class="env-flap env-flap--bottom"></div>
+
+          <!-- Invitation card — slides up when opened -->
           <div class="env-card" id="envCard">
-            <div class="env-card-border">
-              <span class="env-card-eyebrow">You are warmly invited</span>
-              <h1 class="env-card-names">Benson <span class="env-amp">&amp;</span> Keran</h1>
-              <span class="env-card-date">December 5, 2026 &middot; Balch Springs, Texas</span>
+            <div class="env-card-inner">
+              <span class="env-card-monogram">B &amp; K</span>
+              <div class="env-ornament" aria-hidden="true">&#10022; &#10022; &#10022;</div>
+              <p class="env-card-eyebrow">Together with their families</p>
+              <h1 class="env-card-names">
+                Benson<br>
+                <span class="env-amp">&amp;</span><br>
+                Keran
+              </h1>
+              <div class="env-ornament" aria-hidden="true">&#10022; &#10022; &#10022;</div>
+              <p class="env-card-date">Saturday &middot; December 5, 2026</p>
+              <p class="env-card-venue">Balch Springs, Texas</p>
             </div>
           </div>
-          <div class="env-flap env-flap--top" id="envTopFlap">
-            <div class="wax-seal" id="waxSeal">B&amp;K</div>
+
+          <!-- Top sealing flap (no children — clip-path would clip them) -->
+          <div class="env-flap env-flap--top"></div>
+
+          <!-- Wax seal — sibling of flap, NOT child (avoids clip-path clipping) -->
+          <div class="wax-seal" id="waxSeal">
+            <div class="seal-ring"></div>
+            <span class="seal-text">B&amp;K</span>
           </div>
+
         </div>
-      </div>
+      </div><!-- /env-wrap -->
 
       <!-- Auth -->
       <div class="gate-auth" id="gateAuth">
-        <p class="auth-hint">Enter your invitation code to break the seal</p>
+        <p class="auth-hint">Enter your invitation code</p>
         <form class="code-form" id="codeForm" novalidate>
-          <input id="codeInput" name="code" type="text" autocomplete="off"
-                 placeholder="Code" inputmode="text">
-          <button class="code-submit" type="submit">Unlock</button>
+          <div class="code-input-wrap">
+            <input id="codeInput" name="code" type="text"
+                   autocomplete="off" placeholder="Code" inputmode="text"
+                   spellcheck="false">
+          </div>
+          <button class="code-submit" type="submit">
+            <span>Unlock</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
         </form>
         <p class="code-error" id="codeError">Incorrect code &mdash; please try again.</p>
       </div>
 
-    </div>
-  </div>
+    </div><!-- /gate-content -->
+  </div><!-- /gate -->
 
   <!-- ================= NAV ================= -->
   <nav class="site-nav" id="siteNav">
@@ -179,14 +225,36 @@
               </select>
             </div>
           </div>
-          <div class="field">
-            <label for="rsvpGuests">Number of Guests</label>
-            <input id="rsvpGuests" type="number" min="1" max="10" value="1">
+          
+          <div class="rsvp-grid">
+            <div class="field">
+              <label for="rsvpGuests">Number of Guests (Total)</label>
+              <input id="rsvpGuests" type="number" min="1" value="1" required>
+            </div>
+            <div class="field">
+              <label for="rsvpAccommodation">Hotel Accommodation</label>
+              <select id="rsvpAccommodation">
+                <option value="no">No assistance needed</option>
+                <option value="yes">Yes, please help with booking</option>
+              </select>
+            </div>
           </div>
+          
+          <div class="field">
+            <label for="rsvpGuestNames">Names of all guests (including children)</label>
+            <textarea id="rsvpGuestNames" style="min-height: 80px;" placeholder="Please list everyone attending..."></textarea>
+          </div>
+
+          <div class="field">
+            <label for="rsvpDiet">Dietary Restrictions / Food Allergies (Optional)</label>
+            <input id="rsvpDiet" type="text" placeholder="e.g., Vegetarian, gluten-free, peanut allergy...">
+          </div>
+
           <div class="field">
             <label for="rsvpMessage">Message for the Couple (Optional)</label>
-            <textarea id="rsvpMessage" placeholder="Leave a note or dietary requirement"></textarea>
+            <textarea id="rsvpMessage" style="min-height: 80px;" placeholder="Leave a note for Benson & Keran..."></textarea>
           </div>
+          
           <button class="rsvp-submit" type="submit">Send RSVP</button>
         </form>
 
