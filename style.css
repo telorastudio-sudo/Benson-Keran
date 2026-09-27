@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-
 :root {
     --cream: #F3EBDD;
     --cream-soft: #F9F4EB;
@@ -4479,7 +4477,7 @@ footer {
    ------------------------------------------------------------ */
 
 .gate {
-    background: #f6ead7 !important;
+    background: #edce9b !important;
 }
 
 .gate-bg {
@@ -4702,7 +4700,7 @@ footer {
 
     box-shadow:
         inset 0 0 0 2px
-        rgba(68,4,13,.55),
+        rgb(75, 3, 13),
 
         inset 0 0 8px
         rgba(255,211,121,.20),
@@ -5437,3 +5435,234 @@ footer {
     }
 }
 
+/* ============================================================
+   FINAL 4-CORNER ENVELOPE FOLD LINES
+   Top-left     → seal
+   Top-right    → seal
+   Bottom-left  → seal
+   Bottom-right → seal
+
+   OPENING CARD ONLY
+   ============================================================ */
+
+
+/*
+   Your seal is positioned at approximately 50.5% vertically.
+   Therefore:
+   - top flap ends exactly at 50.5%
+   - bottom flap begins exactly at 50.5%
+
+   This makes all four diagonal lines meet underneath the seal.
+*/
+
+
+/* ============================================================
+   TOP FLAP
+   Top-left + Top-right → Seal
+   ============================================================ */
+
+.env-flap--top {
+    left: 0 !important;
+    top: 0 !important;
+
+    width: 100% !important;
+
+    /*
+       IMPORTANT:
+       Point of top triangle meets center of seal.
+    */
+    height: 50.5% !important;
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            50% 100%
+        ) !important;
+
+    transform-origin:
+        top center !important;
+}
+
+
+/*
+   Replace the previous top V graphics.
+
+   This SVG draws:
+
+   TOP LEFT  \
+              > SEAL
+   TOP RIGHT /
+*/
+
+.env-flap--top::after {
+    content: "" !important;
+
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    z-index: 10 !important;
+
+    pointer-events: none !important;
+
+    opacity: 1 !important;
+
+    clip-path: none !important;
+
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3C!-- dark embossed shadow --%3E%3Cpath d='M0 0 L50 100 L100 0' fill='none' stroke='%239b8976' stroke-opacity='.46' stroke-width='3.2' vector-effect='non-scaling-stroke'/%3E%3C!-- light raised paper edge --%3E%3Cpath d='M0 0 L50 100 L100 0' fill='none' stroke='%23fffaf0' stroke-opacity='.94' stroke-width='1.45' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")
+        center / 100% 100%
+        no-repeat !important;
+}
+
+
+/* ============================================================
+   BOTTOM FLAP
+   Bottom-left + Bottom-right → Seal
+   ============================================================ */
+
+.env-flap--bottom {
+    left: 0 !important;
+    bottom: 0 !important;
+
+    width: 100% !important;
+
+    /*
+       100 - 50.5 = 49.5
+       Therefore its TOP point lands at the seal center.
+    */
+    height: 49.5% !important;
+
+    clip-path:
+        polygon(
+            0 100%,
+            100% 100%,
+            50% 0
+        ) !important;
+}
+
+
+/*
+   Bottom SVG draws:
+
+              SEAL
+              /  \
+   BOTTOM LEFT    BOTTOM RIGHT
+*/
+
+.env-flap--bottom::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    z-index: 10 !important;
+
+    pointer-events: none !important;
+
+    opacity: 1 !important;
+
+    clip-path: none !important;
+
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3C!-- dark embossed shadow --%3E%3Cpath d='M0 100 L50 0 L100 100' fill='none' stroke='%239b8976' stroke-opacity='.46' stroke-width='3.2' vector-effect='non-scaling-stroke'/%3E%3C!-- light raised paper edge --%3E%3Cpath d='M0 100 L50 0 L100 100' fill='none' stroke='%23fffaf0' stroke-opacity='.94' stroke-width='1.45' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")
+        center / 100% 100%
+        no-repeat !important;
+}
+
+
+/* ============================================================
+   KEEP SEAL EXACTLY ABOVE THE 4 JOINING LINES
+   ============================================================ */
+
+.wax-seal {
+    left: 50% !important;
+    top: 50.5% !important;
+
+    /*
+       Seal must remain above all four fold lines.
+    */
+    z-index: 40 !important;
+}
+
+
+/* ============================================================
+   PREVENT OLD SHADOWS FROM MAKING EXTRA FALSE LINES
+   ============================================================ */
+
+.env-flap--top {
+    box-shadow: none !important;
+}
+
+.env-flap--bottom {
+    box-shadow: none !important;
+}
+
+
+/*
+   Keep only a subtle physical-paper shadow.
+   Do not create another diagonal seam.
+*/
+
+.env-flap--top {
+    filter:
+        drop-shadow(
+            0 2px 2px
+            rgba(104, 81, 59, 0.12)
+        ) !important;
+}
+
+.env-flap--bottom {
+    filter:
+        drop-shadow(
+            0 -2px 2px
+            rgba(104, 81, 59, 0.10)
+        ) !important;
+}
+
+
+/* ============================================================
+   WHILE ENTERING INVITATION CODE
+
+   The top two fold lines stay attached to the top flap
+   when it lifts slightly.
+   ============================================================ */
+
+.envelope.code-stage .env-flap--top {
+    transform:
+        rotateX(17deg) !important;
+}
+
+
+/* ============================================================
+   MOBILE
+   Same four-corner geometry.
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .env-flap--top {
+        height:
+            50.5% !important;
+    }
+
+
+    .env-flap--bottom {
+        height:
+            49.5% !important;
+    }
+
+
+    .wax-seal {
+        top:
+            50.5% !important;
+    }
+}
