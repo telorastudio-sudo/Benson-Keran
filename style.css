@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
 :root {
     --cream: #F3EBDD;
     --cream-soft: #F9F4EB;
@@ -4464,3 +4466,974 @@ footer {
             ) !important;
     }
 }
+
+/* ============================================================
+   BENSON & KERAN — FINAL REFERENCE OPENING V3
+   OPENING CARD ONLY
+   Does not alter NAV / HERO / STORY / GALLERY / RSVP / FAQ
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   ENVELOPE PAPER
+   ------------------------------------------------------------ */
+
+.gate {
+    background: #f6ead7 !important;
+}
+
+.gate-bg {
+    background:
+        radial-gradient(
+            circle at 50% 38%,
+            rgba(255,255,255,.72),
+            transparent 46%
+        ),
+        linear-gradient(
+            90deg,
+            #f5e8d3 0%,
+            #fbf3e5 50%,
+            #f5e8d3 100%
+        ) !important;
+
+    filter: none !important;
+    transform: none !important;
+}
+
+
+/* Keep the reference clean — no distracting particles */
+
+#particleCanvas {
+    opacity: .05 !important;
+}
+
+
+/* Stronger embossed floral print */
+
+.env-ornament {
+    opacity: .97 !important;
+
+    filter:
+        drop-shadow(
+            -1px -1px 0
+            rgba(255,255,255,.98)
+        )
+        drop-shadow(
+            1px 1px 0
+            rgba(137,105,74,.26)
+        )
+        contrast(1.03) !important;
+}
+
+
+/* ------------------------------------------------------------
+   FOUR ENVELOPE SEAM LINES
+   2 from the top + 2 from the bottom, like the MP4
+   ------------------------------------------------------------ */
+
+.env-flap--top::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            50% 100%
+        );
+
+    background:
+
+        /* TOP LEFT → CENTER */
+        linear-gradient(
+            to bottom right,
+            transparent 49.15%,
+            rgba(108,83,58,.28) 49.55%,
+            rgba(255,255,255,.72) 50.05%,
+            transparent 50.55%
+        )
+        left top / 50.3% 100%
+        no-repeat,
+
+        /* TOP RIGHT → CENTER */
+        linear-gradient(
+            to bottom left,
+            transparent 49.15%,
+            rgba(108,83,58,.28) 49.55%,
+            rgba(255,255,255,.72) 50.05%,
+            transparent 50.55%
+        )
+        right top / 50.3% 100%
+        no-repeat;
+
+    opacity: .92;
+}
+
+
+.env-flap--bottom::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    clip-path:
+        polygon(
+            0 100%,
+            100% 100%,
+            50% 0
+        );
+
+    background:
+
+        /* BOTTOM LEFT → CENTER */
+        linear-gradient(
+            to top right,
+            transparent 49.15%,
+            rgba(108,83,58,.22) 49.55%,
+            rgba(255,255,255,.76) 50.05%,
+            transparent 50.55%
+        )
+        left bottom / 50.3% 100%
+        no-repeat,
+
+        /* BOTTOM RIGHT → CENTER */
+        linear-gradient(
+            to top left,
+            transparent 49.15%,
+            rgba(108,83,58,.22) 49.55%,
+            rgba(255,255,255,.76) 50.05%,
+            transparent 50.55%
+        )
+        right bottom / 50.3% 100%
+        no-repeat;
+
+    opacity: .95;
+}
+
+
+/* ------------------------------------------------------------
+   WAX SEAL — BOLDER / HIGHER CONTRAST
+   ------------------------------------------------------------ */
+
+.wax-seal {
+    width: 108px !important;
+    height: 108px !important;
+
+    top: 50.5% !important;
+
+    border-radius:
+        44% 56% 47% 53% /
+        54% 45% 55% 46% !important;
+
+    background:
+        radial-gradient(
+            circle at 31% 24%,
+            #c24856 0%,
+            #9d1d32 14%,
+            #761023 42%,
+            #570715 72%,
+            #31030b 100%
+        ) !important;
+
+    box-shadow:
+        0 8px 12px rgba(73,29,22,.30),
+        0 14px 25px rgba(70,36,22,.22),
+
+        inset 4px 5px 7px
+        rgba(255,205,194,.21),
+
+        inset -6px -8px 10px
+        rgba(34,0,7,.50),
+
+        0 0 0 2px
+        rgba(68,4,14,.35),
+
+        0 0 18px
+        rgba(116,16,31,.10) !important;
+
+    animation:
+        finalSealIdle
+        3s ease-in-out
+        infinite !important;
+}
+
+
+@keyframes finalSealIdle {
+
+    0%,
+    100% {
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+
+        filter:
+            brightness(1);
+    }
+
+    50% {
+        transform:
+            translate(-50%, -50%)
+            scale(1.025);
+
+        filter:
+            brightness(1.06)
+            drop-shadow(
+                0 0 5px
+                rgba(136,21,39,.18)
+            );
+    }
+}
+
+
+/* More visible metallic ring */
+
+.seal-ring {
+    inset: 9px !important;
+
+    border:
+        2px solid
+        #d7a34a !important;
+
+    box-shadow:
+        inset 0 0 0 2px
+        rgba(68,4,13,.55),
+
+        inset 0 0 8px
+        rgba(255,211,121,.20),
+
+        0 0 0 1px
+        rgba(245,204,118,.28) !important;
+}
+
+
+/* Strong gold B&K */
+
+.seal-text {
+    font-size:
+        1.8rem !important;
+
+    font-weight:
+        500 !important;
+
+    color:
+        #e2b458 !important;
+
+    text-shadow:
+        0 1px 0
+        rgba(255,229,165,.55),
+
+        0 -1px 0
+        rgba(54,3,10,.75),
+
+        0 2px 4px
+        rgba(35,0,7,.60) !important;
+}
+
+
+/* ------------------------------------------------------------
+   STAGE 1
+   User taps seal → seal activates + TOP flap lifts slightly.
+   Nothing inside is shown yet.
+   ------------------------------------------------------------ */
+
+.env-flap--top {
+    transition:
+        transform .8s
+        cubic-bezier(.16,1,.3,1),
+        filter .8s ease !important;
+}
+
+
+.envelope.code-stage .env-flap--top {
+    animation: none !important;
+
+    transform:
+        rotateX(19deg) !important;
+
+    filter:
+        drop-shadow(
+            0 7px 7px
+            rgba(98,69,41,.22)
+        )
+        brightness(1.025) !important;
+}
+
+
+.envelope.code-stage .wax-seal {
+    animation:
+        codeSealGlow
+        1.8s ease-in-out
+        infinite !important;
+}
+
+
+@keyframes codeSealGlow {
+
+    0%,
+    100% {
+        transform:
+            translate(-50%, -50%)
+            scale(1.02);
+
+        box-shadow:
+            0 8px 14px
+            rgba(61,20,16,.34),
+
+            inset 4px 5px 7px
+            rgba(255,205,194,.22),
+
+            inset -6px -8px 10px
+            rgba(34,0,7,.50),
+
+            0 0 0 2px
+            rgba(68,4,14,.40),
+
+            0 0 10px
+            rgba(209,156,70,.15);
+    }
+
+    50% {
+        transform:
+            translate(-50%, -53%)
+            scale(1.075);
+
+        box-shadow:
+            0 10px 18px
+            rgba(61,20,16,.38),
+
+            inset 4px 5px 7px
+            rgba(255,205,194,.24),
+
+            inset -6px -8px 10px
+            rgba(34,0,7,.50),
+
+            0 0 0 2px
+            rgba(68,4,14,.40),
+
+            0 0 28px 7px
+            rgba(220,169,76,.34);
+    }
+}
+
+
+/* ------------------------------------------------------------
+   STAGE 2
+   Correct code → seal releases
+   ------------------------------------------------------------ */
+
+.wax-seal.cracking {
+    animation:
+        referenceSealRelease
+        .9s
+        cubic-bezier(.18,.72,.22,1)
+        forwards !important;
+}
+
+
+@keyframes referenceSealRelease {
+
+    0% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.05);
+
+        filter:
+            brightness(1);
+    }
+
+    35% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -56%)
+            scale(1.18);
+
+        filter:
+            brightness(1.25)
+            drop-shadow(
+                0 0 18px
+                rgba(234,181,87,.65)
+            );
+    }
+
+    70% {
+        opacity: .92;
+
+        transform:
+            translate(-50%, -61%)
+            scale(1.12);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -68%)
+            scale(.92);
+
+        filter:
+            brightness(1.15);
+    }
+}
+
+
+/* ------------------------------------------------------------
+   STAGE 3
+   TOP flap fully opens.
+   Bottom/side envelope remains closed.
+   ------------------------------------------------------------ */
+
+.envelope.top-open .env-flap--top,
+.envelope.open .env-flap--top {
+    animation:
+        finalReferenceFlap
+        1.45s
+        cubic-bezier(.18,.80,.20,1)
+        forwards !important;
+}
+
+
+@keyframes finalReferenceFlap {
+
+    0% {
+        transform:
+            rotateX(18deg);
+
+        z-index: 7;
+
+        filter:
+            brightness(1);
+    }
+
+    35% {
+        transform:
+            rotateX(74deg);
+
+        filter:
+            brightness(1.08)
+            drop-shadow(
+                0 8px 8px
+                rgba(99,68,39,.23)
+            );
+    }
+
+    72% {
+        transform:
+            rotateX(151deg);
+
+        filter:
+            brightness(1.05);
+    }
+
+    90% {
+        transform:
+            rotateX(177deg);
+    }
+
+    100% {
+        transform:
+            rotateX(162deg);
+
+        z-index: 0;
+
+        filter:
+            brightness(.94);
+    }
+}
+
+
+/* Golden light appears on the two opening edges */
+
+.envelope.top-open .env-flap--top {
+    box-shadow:
+        inset 0 -2px 0
+        rgba(232,181,91,.38) !important;
+}
+
+
+/* ------------------------------------------------------------
+   STAGE 4
+   FINAL GOLD LIGHT — BEFORE INVITATION REVEAL
+   ------------------------------------------------------------ */
+
+.env-light-rays {
+    left: 50% !important;
+    top: 50% !important;
+
+    width: 185% !important;
+
+    opacity: 0 !important;
+}
+
+
+.envelope.light-reveal .env-light-rays {
+    animation:
+        finalLightBurst
+        1.15s
+        cubic-bezier(.16,1,.3,1)
+        forwards !important;
+}
+
+
+@keyframes finalLightBurst {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(.10);
+    }
+
+    22% {
+        opacity: .95;
+
+        transform:
+            translate(-50%, -50%)
+            scale(.36);
+    }
+
+    55% {
+        opacity: .88;
+
+        transform:
+            translate(-50%, -50%)
+            scale(.94);
+    }
+
+    100% {
+        opacity: .14;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.22);
+    }
+}
+
+
+.ray-glow {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 230px;
+    height: 230px;
+
+    transform:
+        translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,250,226,.98) 0%,
+            rgba(246,199,111,.72) 24%,
+            rgba(220,160,64,.25) 48%,
+            transparent 72%
+        ) !important;
+
+    filter:
+        blur(7px);
+}
+
+
+.gate::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: 35;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(255,249,222,.78),
+            rgba(245,205,125,.18) 28%,
+            transparent 58%
+        );
+}
+
+
+.gate.light-stage::before {
+    animation:
+        wholeGateBloom
+        1.15s ease-out
+        forwards;
+}
+
+
+@keyframes wholeGateBloom {
+
+    0% {
+        opacity: 0;
+    }
+
+    35% {
+        opacity: .82;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+/* Invitation stays hidden until .open is added */
+
+.envelope:not(.open) .invite-peek {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+
+/* ------------------------------------------------------------
+   AUTH / CODE BOX
+   ------------------------------------------------------------ */
+
+.gate.auth-open .gate-auth {
+    opacity: 1 !important;
+
+    pointer-events: auto !important;
+
+    transform:
+        translateX(-50%)
+        translateY(0) !important;
+}
+
+
+/* Desktop stays elegant */
+
+@media (min-width: 601px) {
+
+    .gate.auth-open .gate-auth {
+        bottom:
+            28px !important;
+    }
+}
+
+
+/* ------------------------------------------------------------
+   PHONE FIX
+   Opening shifts upward and textbox stays above keyboard.
+   ------------------------------------------------------------ */
+
+@media (max-width: 600px) {
+
+    .gate.auth-open {
+        overflow-y:
+            auto !important;
+
+        overscroll-behavior:
+            contain;
+    }
+
+
+    .gate.auth-open .env-wrap {
+        animation:
+            none !important;
+
+        transform:
+            translateY(-12dvh)
+            scale(.91) !important;
+
+        transform-origin:
+            50% 35%;
+
+        transition:
+            transform .55s
+            cubic-bezier(.16,1,.3,1) !important;
+    }
+
+
+    .gate-auth {
+        position:
+            fixed !important;
+
+        left:
+            50% !important;
+
+        top:
+            var(--auth-top, 69dvh) !important;
+
+        bottom:
+            auto !important;
+
+        transform:
+            translate(-50%, -50%)
+            translateY(8px) !important;
+
+        width:
+            min(88vw, 350px) !important;
+
+        z-index:
+            60 !important;
+    }
+
+
+    .gate.auth-open .gate-auth {
+        transform:
+            translate(-50%, -50%) !important;
+    }
+
+
+    .auth-hint {
+        font-size:
+            .67rem !important;
+    }
+
+
+    .code-form input {
+        font-size:
+            16px !important;
+
+        /*
+           16px prevents iPhone Safari from zooming
+           into the input automatically.
+        */
+    }
+
+
+    .wax-seal {
+        width:
+            100px !important;
+
+        height:
+            100px !important;
+    }
+
+
+    .seal-text {
+        font-size:
+            1.65rem !important;
+    }
+}
+
+
+
+/* ============================================================
+   SIMPLE SCROLL DOWN NAVIGATOR
+   Text + arrow only
+   ============================================================ */
+
+.scroll-navigator {
+    position: absolute;
+
+    left: 50%;
+    bottom: 24px;
+
+    z-index: 20;
+
+    transform:
+        translateX(-50%)
+        translateY(10px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 0;
+
+    color:
+        rgba(249, 244, 235, 0.95);
+
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+
+    box-shadow: none !important;
+
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+
+    font-family:
+        'Jost',
+        sans-serif;
+
+    cursor: pointer;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+}
+
+
+.scroll-navigator.visible {
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+
+/* No hover box */
+.scroll-navigator:hover {
+    background: transparent !important;
+}
+
+
+/* Scroll Down text */
+.scroll-navigator-label {
+    font-size: 0.68rem;
+
+    font-weight: 500;
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
+
+    text-shadow:
+        0 2px 6px
+        rgba(0,0,0,0.35);
+}
+
+
+/* Arrow area */
+.scroll-navigator-arrows {
+    position: relative;
+
+    width: 18px;
+    height: 15px;
+}
+
+
+/* Two animated downward arrows */
+.scroll-navigator-arrows::before,
+.scroll-navigator-arrows::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+
+    width: 8px;
+    height: 8px;
+
+    border-right:
+        1.5px solid
+        rgba(255,255,255,0.95);
+
+    border-bottom:
+        1.5px solid
+        rgba(255,255,255,0.95);
+
+    transform:
+        translateX(-50%)
+        rotate(45deg);
+
+    animation:
+        simpleScrollArrow
+        1.6s
+        ease-in-out
+        infinite;
+}
+
+
+.scroll-navigator-arrows::before {
+    top: -2px;
+}
+
+
+.scroll-navigator-arrows::after {
+    top: 4px;
+
+    animation-delay:
+        0.16s;
+}
+
+
+@keyframes simpleScrollArrow {
+    0%,
+    100% {
+        opacity: 0.3;
+
+        transform:
+            translateX(-50%)
+            translateY(-2px)
+            rotate(45deg);
+    }
+
+    50% {
+        opacity: 1;
+
+        transform:
+            translateX(-50%)
+            translateY(3px)
+            rotate(45deg);
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .scroll-navigator {
+        bottom:
+            max(
+                18px,
+                env(safe-area-inset-bottom)
+            );
+    }
+
+    .scroll-navigator-label {
+        font-size:
+            0.64rem;
+    }
+}
+
+
+@keyframes scrollArrowMotion {
+
+    0%,
+    100% {
+        opacity:
+            .30;
+
+        transform:
+            translateX(-50%)
+            translateY(-2px)
+            rotate(45deg);
+    }
+
+    50% {
+        opacity:
+            1;
+
+        transform:
+            translateX(-50%)
+            translateY(2px)
+            rotate(45deg);
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .scroll-navigator {
+        bottom:
+            max(
+                18px,
+                env(safe-area-inset-bottom)
+            );
+    }
+}
+

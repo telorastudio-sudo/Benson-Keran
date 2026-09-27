@@ -164,94 +164,381 @@
   }
 
   // ── Cinematic opening sequence ────────────────────────────────────────────
-  function runUnlockSequence() {
+
+function ensureScrollNavigator() {
+    var hero = document.getElementById('welcome');
+
+    if (
+        !hero ||
+        document.getElementById('scrollNavigator')
+    ) {
+        return;
+    }
+
+    var button = document.createElement('button');
+
+    button.id = 'scrollNavigator';
+    button.className = 'scroll-navigator';
+    button.type = 'button';
+
+    button.setAttribute(
+        'aria-label',
+        'Scroll down to wedding details'
+    );
+
+    button.innerHTML =
+        '<span class="scroll-navigator-label">Scroll down</span>' +
+        '<span class="scroll-navigator-arrows" aria-hidden="true"></span>';
+
+    hero.appendChild(button);
+
+    requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+            button.classList.add('visible');
+        });
+    });
+
+    button.addEventListener('click', function () {
+        var nextSection =
+            document.getElementById('schedule');
+
+        if (nextSection) {
+            nextSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+}
+
+
+/*
+   Keep the invitation-code box inside the phone's
+   visible viewport when the on-screen keyboard opens.
+*/
+
+function positionGateAuthForMobile() {
+    if (
+        !gateAuth ||
+        !window.matchMedia ||
+        !window.matchMedia('(max-width: 600px)').matches
+    ) {
+        return;
+    }
+
+    var viewport = window.visualViewport;
+
+    var height =
+        viewport
+            ? viewport.height
+            : window.innerHeight;
+
+    var offsetTop =
+        viewport
+            ? viewport.offsetTop
+            : 0;
+
+    /*
+       Place it at roughly 70% of the currently visible
+       phone area instead of the full document height.
+    */
+
+    var target =
+        offsetTop +
+        Math.min(
+            height * 0.70,
+            height - 82
+        );
+
+    target =
+        Math.max(
+            205,
+            target
+        );
+
+    gateAuth.style.setProperty(
+        '--auth-top',
+        target + 'px'
+    );
+}
+
+
+if (window.visualViewport) {
+
+    window.visualViewport.addEventListener(
+        'resize',
+        function () {
+            if (
+                gate &&
+                gate.classList.contains('auth-open')
+            ) {
+                positionGateAuthForMobile();
+            }
+        }
+    );
+
+    window.visualViewport.addEventListener(
+        'scroll',
+        function () {
+            if (
+                gate &&
+                gate.classList.contains('auth-open')
+            ) {
+                positionGateAuthForMobile();
+            }
+        }
+    );
+}
+
+
+/*
+   Returning visitor:
+   if the gate was skipped using localStorage,
+   still provide the scroll-down navigator.
+*/
+
+window.addEventListener('load', function () {
+
+    if (
+        body &&
+        !body.classList.contains('locked')
+    ) {
+        ensureScrollNavigator();
+    }
+});
+
+
+function runUnlockSequence() {
+
     try {
-      localStorage.setItem('bk-invite-unlocked', 'yes');
+        localStorage.setItem(
+            'bk-invite-unlocked',
+            'yes'
+        );
     } catch (e) {
-      // Ignore localStorage errors
+        /* localStorage unavailable */
     }
 
-    // Lock opening so it cannot be triggered twice
+
     if (envWrap) {
-      envWrap.classList.add('opening');
+        envWrap.classList.add('opening');
     }
 
-    // Hide invitation code form
+
+    /*
+       Hide the invitation-code form.
+    */
+
     if (gateAuth) {
-      gateAuth.style.transition =
-        'opacity 0.55s ease, transform 0.55s ease';
 
-      gateAuth.style.opacity = '0';
+        gateAuth.style.transition =
+            'opacity 0.45s ease, transform 0.45s ease';
 
-      gateAuth.style.transform =
-        'translateX(-50%) translateY(12px)';
+        gateAuth.style.opacity = '0';
 
-      gateAuth.style.pointerEvents = 'none';
+        gateAuth.style.pointerEvents = 'none';
     }
 
-    // Animate wax seal
-    var seal = document.getElementById('waxSeal');
+
+    if (gate) {
+        gate.classList.remove('auth-open');
+    }
+
+
+    /*
+       Remove the partial/code-entry state.
+    */
+
+    if (envelope) {
+        envelope.classList.remove('code-stage');
+    }
+
+
+    /*
+       PHASE 1:
+       Release / illuminate the seal.
+    */
+
+    var seal =
+        document.getElementById('waxSeal');
 
     if (seal) {
-      seal.classList.add('cracking');
+        seal.classList.add('cracking');
     }
 
     spawnSealSparkles();
 
-    // Open envelope
-    setTimeout(function () {
-      if (envelope) {
-        envelope.classList.add('open');
-      }
-    }, 520);
 
-    // Fade opening screen
-    setTimeout(function () {
-      if (gateContent) {
-        gateContent.classList.add('fade-out');
-      }
+    /*
+       PHASE 2:
+       Only the TOP envelope flap opens.
+       Side and bottom folds remain untouched.
+    */
 
-      setTimeout(function () {
+    setTimeout(function () {
+
+        if (envelope) {
+            envelope.classList.add('top-open');
+        }
+
+    }, 180);
+
+
+    /*
+       PHASE 3:
+       Once the upper flap is open,
+       create the golden light bloom.
+    */
+
+    setTimeout(function () {
+
+        if (envelope) {
+            envelope.classList.add('light-reveal');
+        }
+
         if (gate) {
-          gate.classList.add('hidden');
+            gate.classList.add('light-stage');
+        }
+
+    }, 1500);
+
+
+    /*
+       PHASE 4:
+       Reveal the invitation only AFTER
+       the final light effect.
+    */
+
+    setTimeout(function () {
+
+        if (envelope) {
+            envelope.classList.add('open');
+        }
+
+    }, 2180);
+
+
+    /*
+       Give the invitation a moment to appear,
+       then transition into your EXISTING website.
+    */
+
+    setTimeout(function () {
+
+        if (gateContent) {
+            gateContent.classList.add('fade-out');
+        }
+
+    }, 3550);
+
+
+    setTimeout(function () {
+
+        if (gate) {
+            gate.classList.add('hidden');
         }
 
         if (body) {
-          body.classList.remove('locked');
+            body.classList.remove('locked');
         }
 
-        setTimeout(function () {
-          if (nav) {
-            nav.classList.add('nav-visible');
-          }
-        }, 500);
+
+        if (nav) {
+
+            setTimeout(function () {
+                nav.classList.add('nav-visible');
+            }, 350);
+
+        }
+
 
         startCountdown();
+
         triggerReveals();
 
-      }, 500);
+        ensureScrollNavigator();
 
-    }, 2270);
-  }
+    }, 4200);
+}
 
-  // ── Wax seal click ────────────────────────────────────────────────────────
-  var waxSeal = document.getElementById('waxSeal');
 
-  if (waxSeal) {
-    waxSeal.addEventListener('click', function () {
-      if (
-        envWrap &&
-        !envWrap.classList.contains('opening') &&
-        codeInput
-      ) {
-        try {
-          codeInput.focus({ preventScroll: true });
-        } catch (e) {
-          codeInput.focus();
+// ── Wax seal click ────────────────────────────────────────────────────────
+
+var waxSeal =
+    document.getElementById('waxSeal');
+
+
+if (waxSeal) {
+
+    waxSeal.addEventListener(
+        'click',
+        function () {
+
+            if (
+                !envWrap ||
+                envWrap.classList.contains('opening') ||
+                !codeInput
+            ) {
+                return;
+            }
+
+
+            /*
+               Reference-video adaptation:
+               seal activates + upper flap lifts slightly,
+               but the invitation remains closed.
+            */
+
+            if (gate) {
+                gate.classList.add('auth-open');
+            }
+
+            if (envelope) {
+                envelope.classList.add('code-stage');
+            }
+
+
+            positionGateAuthForMobile();
+
+
+            /*
+               On phones, first bring the textbox into the
+               visible viewport, THEN open the keyboard.
+            */
+
+            setTimeout(function () {
+
+                positionGateAuthForMobile();
+
+                if (gateAuth) {
+
+                    try {
+                        gateAuth.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center',
+                            inline: 'nearest'
+                        });
+                    } catch (e) {
+                        /* Older browser */
+                    }
+                }
+
+                setTimeout(function () {
+
+                    try {
+                        codeInput.focus();
+                    } catch (e) {
+                        /* Ignore */
+                    }
+
+                    positionGateAuthForMobile();
+
+                }, 180);
+
+            }, 220);
         }
-      }
-    });
-  }
+    );
+}
 
   // ── Invitation code form ──────────────────────────────────────────────────
   if (codeForm && codeInput && codeError) {
