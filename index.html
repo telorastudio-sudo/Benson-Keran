@@ -18,84 +18,33 @@
     <canvas id="particleCanvas" aria-hidden="true"></canvas>
 
     <div class="gate-content" id="gateContent">
-
-      <!-- Heading -->
-      <div class="gate-heading">
-        <span class="gate-heading-flourish" aria-hidden="true">&#10022;</span>
-        <h2 class="gate-heading-text">You're Cordially Invited</h2>
-      </div>
-
-      <!-- Envelope -->
       <div class="env-wrap" id="envWrap">
-        <div class="envelope" id="envelope">
-
-          <!-- Back plate (cream parchment) -->
-          <div class="env-body">
-            <div class="env-inside"></div>
-          </div>
-
-          <!-- Corner flourishes -->
-          <span class="env-corner env-corner--tl" aria-hidden="true"></span>
-          <span class="env-corner env-corner--tr" aria-hidden="true"></span>
-          <span class="env-corner env-corner--bl" aria-hidden="true"></span>
-          <span class="env-corner env-corner--br" aria-hidden="true"></span>
-
-          <!-- Decorative fold lines (visible center diamond) -->
+        <div class="envelope" id="envelope" aria-label="Wedding invitation envelope">
+          <div class="env-body"><div class="env-inside"></div></div>
+          <div class="env-light-rays" aria-hidden="true"><div class="ray-glow"></div></div>
+          <div class="env-ornament env-ornament--tl" aria-hidden="true">❦</div>
+          <div class="env-ornament env-ornament--br" aria-hidden="true">❦</div>
           <div class="env-flap env-flap--left"></div>
           <div class="env-flap env-flap--right"></div>
           <div class="env-flap env-flap--bottom"></div>
-
-          <!-- Invitation card — slides up when opened -->
-          <div class="env-card" id="envCard">
-            <div class="env-card-inner">
-              <span class="env-card-monogram">B &amp; K</span>
-              <div class="env-ornament" aria-hidden="true">&#10022; &#10022; &#10022;</div>
-              <p class="env-card-eyebrow">Together with their families</p>
-              <h1 class="env-card-names">
-                Benson<br>
-                <span class="env-amp">&amp;</span><br>
-                Keran
-              </h1>
-              <div class="env-ornament" aria-hidden="true">&#10022; &#10022; &#10022;</div>
-              <p class="env-card-date">Saturday &middot; December 5, 2026</p>
-              <p class="env-card-venue">Balch Springs, Texas</p>
-            </div>
-          </div>
-
-          <!-- Top sealing flap (no children — clip-path would clip them) -->
           <div class="env-flap env-flap--top"></div>
-
-          <!-- Wax seal — sibling of flap, NOT child (avoids clip-path clipping) -->
-          <div class="wax-seal" id="waxSeal">
-            <div class="seal-ring"></div>
-            <span class="seal-text">B&amp;K</span>
-          </div>
-
-        </div>
-      </div><!-- /env-wrap -->
-
-      <!-- Auth -->
-      <div class="gate-auth" id="gateAuth">
-        <p class="auth-hint">Enter your invitation code</p>
-        <form class="code-form" id="codeForm" novalidate>
-          <div class="code-input-wrap">
-            <input id="codeInput" name="code" type="text"
-                   autocomplete="off" placeholder="Code" inputmode="text"
-                   spellcheck="false">
-          </div>
-          <button class="code-submit" type="submit">
-            <span>Unlock</span>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+          <button class="wax-seal" id="waxSeal" type="button" aria-label="Open invitation">
+            <div class="seal-ring"></div><span class="seal-text">B&amp;K</span>
           </button>
+          <div class="invite-peek" aria-hidden="true"><span>Together with their families</span><strong>Benson <i>&amp;</i> Keran</strong><small>05 · 12 · 2026</small></div>
+        </div>
+      </div>
+
+      <div class="gate-auth" id="gateAuth">
+        <p class="auth-hint">Enter your invitation code to open</p>
+        <form class="code-form" id="codeForm" novalidate>
+          <div class="code-input-wrap"><input id="codeInput" name="code" type="text" autocomplete="off" placeholder="Invitation code" inputmode="text" spellcheck="false"></div>
+          <button class="code-submit" type="submit"><span>Open</span></button>
         </form>
         <p class="code-error" id="codeError">Incorrect code &mdash; please try again.</p>
       </div>
-
-    </div><!-- /gate-content -->
-  </div><!-- /gate -->
+    </div>
+  </div>
 
   <!-- ================= NAV ================= -->
   <nav class="site-nav" id="siteNav">
